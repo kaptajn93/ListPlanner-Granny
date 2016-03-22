@@ -158,7 +158,7 @@ function ViewModel(lists) {
 
         self.toDoLists([]);
         // Send an AJAX request Todolist
-        $.getJSON("/api/manager/toDoJson")
+        $.getJSON("/api/todolist")
             .done(function (data) {
                 console.debug('todolists result', data);
 

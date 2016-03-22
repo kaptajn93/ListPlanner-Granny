@@ -7,6 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Runtime.Serialization;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
+
 namespace ListPlanner_Granny.Models
 {
     using System;
@@ -26,7 +30,9 @@ namespace ListPlanner_Granny.Models
         public bool Selected { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonProperty("items")]
         public virtual ICollection<ListItem> ListItem { get; set; }
+
         public virtual User User { get; set; }
     }
 }

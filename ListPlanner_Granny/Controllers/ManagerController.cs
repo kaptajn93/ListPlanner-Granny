@@ -7,9 +7,11 @@ using ListItem = ListPlanner_Granny.Models.ListItem;
 
 namespace ListPlanner_Granny.Controllers
 {
+
+    [Route("api/todolist")]
     public class ManagerController : ApiController
     {
-        private ApplicationDbContext _context;
+        private readonly HsmDbContext _context;
 
         const string ToDoListCacheKeyPrefix = "ToDoListCache_";
         const string ToDoByUserCacheKeyPrefix = "ToDoByUserCache_";
@@ -17,9 +19,10 @@ namespace ListPlanner_Granny.Controllers
         //private IMemoryCache cache;
         //private readonly ILogger<ToDoListsController> _logger;
 
-        public ManagerController(ApplicationDbContext context/*, IMemoryCache cache, ILogger<ToDoListsController> logger*/)
+        public ManagerController()
         {
-            _context = context;
+            _context = new HsmDbContext();
+
             //this.cache = cache;
             //_logger = logger;
             //_logger.LogDebug("Hejsa");
@@ -27,17 +30,22 @@ namespace ListPlanner_Granny.Controllers
         }
 
 
-        //JUBII
+        //JUBII,...mig i røven!  haha
         //    [LogActionFilter]
         //    [HsmCache(CacheKey = ToDoListCacheKeyPrefix, Duration = 60)]
-        public IHttpActionResult toDoJson()
+        //[Route("ToDoLists")] // kun for at vise at det er sådan du "mapper" navn/url tol api-action'en :) ok
+        public ICollection<ToDoList> Get()
         {
-            IList<ToDoList> todolist = _context.ToDoList.Include(x => x.ListItem).ToList();
-            return Json(todolist);
+            // nu kigger .NET på requestet (eller BØR gøre det), og returnerer XML, JSON eller CSV alt after hvad vi beder om i requestet
+
+            var todolist = _context.ToDoList.Include(x => x.ListItem).ToList();
+            return todolist;
         }
+      
 
         //     [HsmCache(CacheKey = ToDoByUserCacheKeyPrefix, Duration = 60)]
-        public IHttpActionResult toDoByUser(int userId)
+        //[Route("ToDoByUser")]
+        public IHttpActionResult GetToDoByUser(int userId)
         {
             IList<ToDoList> todolist;
 
